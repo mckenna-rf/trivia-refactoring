@@ -2,12 +2,12 @@
 
 class Game:
     def __init__(self):
-        self.players = []
+        self.players = [] # list of players
         self.places = [0] * 6
         self.purses = [0] * 6
         self.in_penalty_box = [0] * 6
 
-        self.pop_questions = []
+        self.pop_questions = [] # types of questions
         self.science_questions = []
         self.sports_questions = []
         self.rock_questions = []
@@ -104,20 +104,17 @@ class Game:
                     ' Gold Coins.')
 
                 winner = self._did_player_win()
-                self.current_player += 1
-                if self.current_player == len(self.players): self.current_player = 0
-
+                self.next_player()
                 return winner
             else:
-                self.current_player += 1
-                if self.current_player == len(self.players): self.current_player = 0
+                self.next_player
                 return True
 
 
 
         else:
 
-            print("Answer was corrent!!!!")
+            print("Answer was correct!!!!")
             self.purses[self.current_player] += 1
             print(self.players[self.current_player] + \
                 ' now has ' + \
@@ -125,19 +122,20 @@ class Game:
                 ' Gold Coins.')
 
             winner = self._did_player_win()
-            self.current_player += 1
-            if self.current_player == len(self.players): self.current_player = 0
-
+            self.next_player()
             return winner
 
     def wrong_answer(self):
         print('Question was incorrectly answered')
         print(self.players[self.current_player] + " was sent to the penalty box")
         self.in_penalty_box[self.current_player] = True
-
-        self.current_player += 1
-        if self.current_player == len(self.players): self.current_player = 0
+        self.next_player()
         return True
+    
+    def next_player(self):
+        self.current_player += 1
+        if self.current_player == len(self.players):
+            self.current_player = 0
 
     def _did_player_win(self):
         return not (self.purses[self.current_player] == 6)
